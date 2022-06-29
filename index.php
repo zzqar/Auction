@@ -1,4 +1,5 @@
 <?php
+//инфа должна быть тут...
 session_start();
 
 if(!$_SESSION['user']){

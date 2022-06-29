@@ -1,4 +1,5 @@
 <?php
+//Профиль пользователя 
 session_start();
 
 if(!$_SESSION['user']){

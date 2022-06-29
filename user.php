@@ -1,14 +1,11 @@
 <?php
 session_start();
- 
+//страница со спиком пользователей. Пока можно только смотреть и удалять 
 
 if(  ($_SESSION['user']['group']!= 2 )||(!$_SESSION['user']) ){
     header('Location: /login.php');
     exit();
-}
- 
-
- 
+} 
 ?>  
  
 

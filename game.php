@@ -1,4 +1,5 @@
 <?php
+//крестики нолики, код спижен 
 session_start();
 
 if(!$_SESSION['user']){

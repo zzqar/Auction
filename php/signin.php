@@ -1,4 +1,5 @@
 <?php
+//авторизация
 session_start();
 require_once 'connect.php';
 $login = filter_var(trim($_POST['login']), FILTER_SANITIZE_STRING);

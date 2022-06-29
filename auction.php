@@ -1,5 +1,6 @@
 <?php
 session_start();
+//Стр. со всеми лотами 
  
 
 if( (!$_SESSION['user']) ){
@@ -79,7 +80,7 @@ if( (!$_SESSION['user']) ){
                             $interval = $date->diff($nows);
                             
                             
-
+//не особо мне нравится то как я вывожу лоты 
                             echo '<li class="product-wrapper">
                                     <a href="good.php?id='.$result[$i]['id'].'" class="product">
                                         <div class="product-photo">

@@ -1,12 +1,12 @@
-<?php
-$ip = "localhost";
-$name = "root";
-$psw = "";
-$db = "auction";
+    <?php
+    $ip = "localhost";
+    $name = "root";
+    $psw = "";
+    $db = "auction";
 
-$mySQL = new mysqli($ip, $name, $psw, $db);
+    $mySQL = new mysqli($ip, $name, $psw, $db);
 
-if (!$mySQL){
-    die('Error connect to DB  ');
-} 
-?>
+    if (!$mySQL){
+        die('Error connect to DB  ');
+    } 
+    ?>

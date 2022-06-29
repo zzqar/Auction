@@ -1,4 +1,5 @@
 <?php
+//регистрация
 session_start();
 require_once 'connect.php';
 $login = filter_var(trim($_POST['login']), FILTER_SANITIZE_STRING);
@@ -40,7 +41,9 @@ if (mb_strlen($login) < 5 || mb_strlen($login) > 20 ) {
     header('Location: /registr.php');
     exit();
 }
-$psw = md5($psw.("adas23dawk231"));
+// на стражи пароля NoaNaoki
+$psw = md5($psw.("NoaNaoki"));
+
 
 $mySQL->query("INSERT INTO `user`(`login`, `password`, `name`, `group`) VALUES ('$login', '$psw', '$name', '$group')");
 $mySQL->query("INSERT INTO `bills` (`amount`) VALUES ('100000')");

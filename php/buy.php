@@ -1,39 +1,37 @@
 <?php
+//покупка товара
 session_start();
 if(!$_SESSION['user']){
     header('Location: /login.php');
     exit();
 }
 
-
- 
 require_once 'connect.php';
 
 $id_goods = filter_var(trim($_POST['id_goods']), FILTER_SANITIZE_STRING);
 $id_user = $_SESSION['user']['id'];
 $amount_pay = filter_var(trim($_POST['sum']), FILTER_SANITIZE_NUMBER_INT)*100;
 
+//находим баланс пользователя 
 $bill = $mySQL->query("SELECT * FROM `bills` WHERE `id_bills`= '$id_user'  ")->fetch_assoc(); ;
 $user_bill = $bill['amount'];
-$user_bill_vir = $bill['amount_vir'];
+$user_bill_vir = $bill['amount_vir']; //баланс для ставок 
 
 $now = date("Y-m-d H:i:s"); // текущее время (метка времени)
 
-
+//ищем лот
 $result = $mySQL->query("SELECT * FROM `goods` WHERE `id`= '$id_goods' AND `time_end`> '$now' ")->fetch_assoc();
+//находим максмальную ставку по нему 
 $goods = $mySQL->query("SELECT MAX(`total_sum`) as `max_am` FROM `transaction` WHERE `id_goods`= '$id_goods' GROUP BY `id_goods` ")->fetch_assoc();
-
+//находим максмальную ставку пользователя по данному лоту  
 $MyGoods = $mySQL->query("SELECT MAX(`total_sum`) as `max_am` FROM `transaction` WHERE `id_goods`= '$id_goods' and `id_user`= '$id_user' GROUP BY `id_goods` ")->fetch_assoc();
+
 $raznica_pay = $amount_pay-$MyGoods['max_am'];
 
-if( $goods['max_am']===NULL ){
-    $status = 1;
-     
-}else{
-  
-    $status = 2;
-     
-}
+//проверка на тип ставки
+$type = ($MyGoods['max_am']===NULL ) ? 1:2;
+//$status = 1 - Первая ставка пользователя
+//$status = 2 - Повышение существуещей 
 
 if($result['status']!='1'){
  
@@ -49,15 +47,15 @@ if($result['status']!='1'){
     exit();
 }elseif($amount_pay<=$goods['max_am'] ){
     //проверка на наличие такой же ставки и выше 
-    $_SESSION ['message_good'] = 'Найдена превосходящяя ставка  ';
-    
+    $_SESSION ['message_good'] = 'Найдена превосходящяя ставка  ';   
     header('Location: /good.php?id='.$id_goods); 
     exit();
 }
 
 
- 
-$mySQL->query("INSERT INTO `transaction` (`id_user`,`id_goods`,`amount`,`total_sum`,`date`,`status`) VALUES('$id_user','$id_goods','$raznica_pay','$amount_pay','$now','$status') ");
+//добавляет запись в бд о повышении ставки 
+$mySQL->query("INSERT INTO `transaction` (`id_user`,`id_goods`,`amount`,`total_sum`,`date`,`status`) VALUES('$id_user','$id_goods','$raznica_pay','$amount_pay','$now','$type') ");
+
 $mySQL->query("UPDATE `bills` SET `amount_vir`= `amount_vir`+'$raznica_pay' WHERE `id_bills` = '$id_user' ");
 
 //  платеж равен предельной стоимости 

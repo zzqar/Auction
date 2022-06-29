@@ -1,4 +1,5 @@
 <?php
+// страница товара
 session_start();
 
 $id = $_GET ['id'];

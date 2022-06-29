@@ -1,9 +1,9 @@
 <?php
+// добавление нового лота 
 session_start();
 if(  ($_SESSION['user']['group']!= 2 )||(!$_SESSION['user']) ){
     header('Location: /login.php');
-    exit();
-    
+    exit();  
 }
 
 require_once 'connect.php';
@@ -15,14 +15,8 @@ $date = $_POST['date'];
 if( ($_FILES['file']['name']!=='')){
     $file =$_FILES['file'];
     $name = time().$file['name'];
-    $path  ='style/images/'.$name;
-      
-     
-    move_uploaded_file($file['tmp_name'],'../'.$path);
-     
-    
-    
-     
+    $path  ='style/images/'.$name;    
+    move_uploaded_file($file['tmp_name'],'../'.$path);    
 }else{
     $name = 'no_icon.png';
 }
