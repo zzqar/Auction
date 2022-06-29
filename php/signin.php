@@ -7,7 +7,7 @@ $login = filter_var(trim($_POST['login']), FILTER_SANITIZE_STRING);
 $result = $mySQL->query("SELECT * FROM `user` WHERE `login` = '$login' ")->fetch_assoc();
 $mySQL->close();
 
-$psw = md5(filter_var(trim($_POST['psw']), FILTER_SANITIZE_STRING).("adas23dawk231"));
+$psw = md5(filter_var(trim($_POST['psw']), FILTER_SANITIZE_STRING).("NoaNaoki"));
 
  
 if(count($result) == 0){
